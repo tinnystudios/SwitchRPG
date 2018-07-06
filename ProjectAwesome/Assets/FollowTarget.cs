@@ -13,7 +13,7 @@ public class FollowTarget : MonoBehaviour {
 	void Update ()
     {
 
-        if (m_Target == null)
+        if (m_Target == null || !m_Target.gameObject.activeInHierarchy)
         {
             var player = FindObjectOfType<PlayerController>();
             m_Target = player.transform;

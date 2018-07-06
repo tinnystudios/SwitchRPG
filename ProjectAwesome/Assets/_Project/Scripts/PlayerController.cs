@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,14 +10,33 @@ public class PlayerController : MonoBehaviour {
     public SwitchController m_SwitchController;
     private IAbility mIAbility;
 
+    public PlayerStatus m_PlayerStatus;
+    public PlayerUI m_PlayerUI;
+
     [Header("Settings")]
     public float m_MoveSpeed = 3;
     public float m_JumpForce = 5;
     public float m_DashForce = 10;
 
+    public bool HasAction
+    {
+        get
+        {
+            return Movement.sqrMagnitude > 0.0F;
+        }
+    }
+
     private void Awake()
     {
         mIAbility = GetComponentInChildren<IAbility>(includeInactive:true);
+    }
+
+    private void OnEnable()
+    {
+        if (GameManager.OnNewPlayer != null)
+        {
+            GameManager.OnNewPlayer.Invoke(this);
+        }
     }
 
     // Update is called once per frame
@@ -24,6 +44,30 @@ public class PlayerController : MonoBehaviour {
     {
         ProcessMovement();
         ProcessInput();
+        ProcessPassive();
+    }
+
+    private void ProcessPassive()
+    {
+        var passives = GetComponentsInChildren<IPassive>();
+
+        foreach (var passiveEffect in passives)
+        {
+            if (passiveEffect.CanDo)
+                passiveEffect.ApplyPassiveEffect();
+            else
+                passiveEffect.CancelPassiveEffect();
+        }
+    }
+
+    private void CancelPassive()
+    {
+        var passives = GetComponentsInChildren<IPassive>();
+
+        foreach (var passiveEffect in passives)
+        {
+            passiveEffect.CancelPassiveEffect();
+        }
     }
 
     public void ProcessMovement()
@@ -31,8 +75,9 @@ public class PlayerController : MonoBehaviour {
         var x = Input.GetAxis("Horizontal");
         var y = Input.GetAxis("Vertical");
         var delta = new Vector3(x, 0, y);
+        var multipler = 1.0F;
 
-        transform.position += delta * Time.deltaTime * m_MoveSpeed;
+        transform.position += delta * m_MoveSpeed * Time.deltaTime;
 
         if(delta.sqrMagnitude > 0.2F)
             transform.forward = delta;
@@ -71,8 +116,17 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire3"))
         {
+            CancelPassive();
             m_SwitchController.Switch();
         }
 
+    }
+
+    public void TakeDamage()
+    {
+        m_PlayerStatus.TakeDamage(1);
+
+        if (GameManager.OnTakeDamage != null)
+            GameManager.OnTakeDamage.Invoke(m_PlayerStatus);
     }
 }
