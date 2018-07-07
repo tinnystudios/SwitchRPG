@@ -765,6 +765,7 @@ MonoBehaviour:
   m_ShootingLine: {fileID: 4280409236747490}
   m_Bullet: {fileID: 114598235417045468, guid: d479e2cfc2adf1c4d8107ce28348b54e, type: 2}
   shootForce: 50
+  coolDownTime: 0.5
 --- !u!114 &114390014305439914
 MonoBehaviour:
   m_ObjectHideFlags: 1

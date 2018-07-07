@@ -1,12 +1,21 @@
 ﻿using UnityEngine;
 
-public class RangeAttack : MonoBehaviour, IRangeAttack
+public class RangeAttack : MonoBehaviour, IRangeAttack, ICoolDownable
 {
     public PlayerController m_PlayerController;
     public Transform m_ShootingLine;
     public PlayerBullet m_Bullet;
     private bool isActive = false;
     public float shootForce = 50;
+    public float coolDownTime = 0.5F;
+    public float CoolDownTime
+    {
+        get
+        {
+            return coolDownTime;
+        }
+    }
+
     public void Show(Vector2 joystickInput)
     {
         isActive = true;

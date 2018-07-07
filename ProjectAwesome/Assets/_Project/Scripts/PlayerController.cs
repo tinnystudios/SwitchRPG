@@ -175,8 +175,15 @@ public class PlayerController : MonoBehaviour {
 
                 if (isJoyStickRightActive)
                 {
+                    if (rangeAttack is ICoolDownable)
+                    {
+                        var coolDownable = (ICoolDownable)rangeAttack;
+                        CoolDown(coolDownable.CoolDownTime);
+                    }
+
                     OnJoyStickRightUp();
                 }
+
                 isJoyStickRightActive = false;
             }
 
