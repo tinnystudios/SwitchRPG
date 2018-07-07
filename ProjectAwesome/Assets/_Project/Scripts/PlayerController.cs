@@ -201,8 +201,8 @@ public class PlayerController : MonoBehaviour {
     {
         m_PlayerStatus.TakeDamage(1);
 
-        if (GameManager.OnTakeDamage != null)
-            GameManager.OnTakeDamage.Invoke(m_PlayerStatus);
+        if (GameManager.OnPlayerTakeDamage != null)
+            GameManager.OnPlayerTakeDamage.Invoke(m_PlayerStatus);
 
         //Stop your movement and cool down
         mRigidBody.velocity = Vector3.zero;

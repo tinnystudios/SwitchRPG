@@ -16,7 +16,6 @@ public class RangeAttack : MonoBehaviour, IRangeAttack, ICoolDownable
     public float minShootingRange = 5;
     private float mProgress;
 
-
     public float CoolDownTime
     {
         get

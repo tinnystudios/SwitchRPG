@@ -32,6 +32,14 @@ public class PlayerBullet : MonoBehaviour
 
         if (Physics.SphereCast(transform.position, mSize, transform.forward, out hit, mSize, hitMask))
         {
+            var activatable = hit.transform.GetComponent<IActivatable>();
+
+            if (activatable != null)
+            {
+                Debug.Log(hit.transform.name);
+                activatable.Activate();
+            }
+
             var enemy = hit.transform.GetComponent<EnemyStatus>();
 
             if (enemy != null)

@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4809105957380800}
   - component: {fileID: 33258353862610888}
-  - component: {fileID: 135255871757223400}
   - component: {fileID: 23237162454605850}
   m_Layer: 8
   m_Name: Sphere
@@ -38,7 +37,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4927945686997484}
   - component: {fileID: 33983093074906446}
-  - component: {fileID: 65470249661461922}
   - component: {fileID: 23493828900451754}
   m_Layer: 8
   m_Name: Hat
@@ -56,7 +54,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4175984899563910}
   - component: {fileID: 33569929610585412}
-  - component: {fileID: 135363443089103796}
   - component: {fileID: 23655210712832034}
   m_Layer: 8
   m_Name: Sphere (1)
@@ -354,18 +351,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &65470249661461922
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1509024992116362}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114049158998077286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -396,7 +381,7 @@ MonoBehaviour:
   m_PlayerUI: {fileID: 114049158998077286}
   m_MoveSpeed: 5
   m_JumpForce: 15
-  m_DashForce: 15
+  m_DashForce: 0
   isCoolingDown: 0
   isJoystickRightCoolingDown: 0
   isJoyStickRightActive: 0
@@ -449,30 +434,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrapPrefab: {fileID: 1032971036529968, guid: bfe98a299fb3a854f955811a8c469438,
     type: 2}
---- !u!135 &135255871757223400
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1032185243638586}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &135363443089103796
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1515015605217524}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136026658455246214
 CapsuleCollider:
   m_ObjectHideFlags: 1

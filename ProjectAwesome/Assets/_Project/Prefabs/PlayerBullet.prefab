@@ -144,7 +144,7 @@ MonoBehaviour:
   m_RigidBody: {fileID: 54348755306041772}
   hitMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1536
 --- !u!198 &198381037163643672
 ParticleSystem:
   m_ObjectHideFlags: 1

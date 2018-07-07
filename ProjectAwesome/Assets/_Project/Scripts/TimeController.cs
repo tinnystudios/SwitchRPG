@@ -5,6 +5,7 @@ using UnityEngine;
 public class TimeController : MonoBehaviour, IPassive
 {
     public PlayerController m_PlayerController;
+    public float timeModifer = 0.3F;
 
     void OnDestroy()
     {
@@ -19,6 +20,7 @@ public class TimeController : MonoBehaviour, IPassive
     public void CancelPassiveEffect()
     {
         Time.timeScale = 1.0F;
+        
     }
 
     public void ApplyPassiveEffect()
@@ -27,7 +29,7 @@ public class TimeController : MonoBehaviour, IPassive
         var force = dir.sqrMagnitude;
         var value = Mathf.Lerp(1, 0.1F, force);
 
-        Time.timeScale = 0.2F;
+        Time.timeScale = timeModifer;
     }
 
     public bool CanDo

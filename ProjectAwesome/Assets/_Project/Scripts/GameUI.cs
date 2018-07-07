@@ -12,7 +12,7 @@ public class GameUI : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.OnTakeDamage += OnTakeDamage;
+        GameManager.OnPlayerTakeDamage += OnTakeDamage;
         GameManager.OnNewPlayer += OnNewPlayer;
     }
 

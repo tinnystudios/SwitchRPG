@@ -95,7 +95,7 @@ public class Turnet : MonoBehaviour
                 var bullet = Instantiate(m_BulletPrefab, m_Pivot.position, m_Pivot.rotation, null);
                 var dir = cannon.forward;
                 dir += new Vector3(Random.Range(-0.2F, 0.2F), Random.Range(-0.05F, 0.05F), Random.Range(-0.2F, 0.2F));
-                bullet.Fire(dir, force * Random.Range(0.8F, 1.5F), size * (Random.Range(1.0F,2.0F)));
+                bullet.Fire(dir, force * Random.Range(0.8F, 1.5F), size * (Random.Range(1.0F,2.0F)), shootRange);
                 bullet.OnHit += OnHitPlayer;
 
                 yield return new WaitForSeconds(0.1F);
