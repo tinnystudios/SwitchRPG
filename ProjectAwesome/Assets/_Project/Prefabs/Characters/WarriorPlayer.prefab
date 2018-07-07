@@ -236,7 +236,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1489088090777002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.048, y: -0.12229, z: 0.35}
+  m_LocalPosition: {x: -0.516, y: 0.313, z: 0.281}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children:
   - {fileID: 4504159698030766}
@@ -315,7 +315,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1089329846590246}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -92.8, y: 0, z: -3.6}
+  m_LocalPosition: {x: -0.45552826, y: 0.13537478, z: 0.6145191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4090564520347836}
@@ -765,7 +765,28 @@ MonoBehaviour:
   m_ShootingLine: {fileID: 4280409236747490}
   m_Bullet: {fileID: 114598235417045468, guid: d479e2cfc2adf1c4d8107ce28348b54e, type: 2}
   shootForce: 50
-  coolDownTime: 0.5
+  coolDownTime: 0.15
+  shootTime: 0.35
+  mLineCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  shootingRange: 20
+  minShootingRange: 5
 --- !u!114 &114390014305439914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -782,7 +803,7 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 512
-  coolDownAmount: 0.5
+  coolDownAmount: 0.25
 --- !u!114 &114571264781456068
 MonoBehaviour:
   m_ObjectHideFlags: 1
