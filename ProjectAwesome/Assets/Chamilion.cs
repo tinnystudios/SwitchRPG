@@ -27,6 +27,7 @@ public class Chamilion : MonoBehaviour
     public Transform damageSphere;
 
     public Collider m_Collider;
+
     private void Awake()
     {
         SetDamageSphere(3);
@@ -68,6 +69,10 @@ public class Chamilion : MonoBehaviour
         canAttack = false;
         m_Rigidbody.useGravity = false;
 
+        //Change color
+        var colorModifier = GetComponent<ColorModifier>();
+        colorModifier.SetAttackColor();
+
         var dir = player.position - transform.position;
         dir.Normalize();
 
@@ -79,7 +84,11 @@ public class Chamilion : MonoBehaviour
 
         yield return StartCoroutine(DoAttack());
 
+
         yield return new WaitForSeconds(Random.Range(coolDownMin, coolDownMax));
+
+        colorModifier.SetCopyColor();
+
 
         canAttack = true;
     }

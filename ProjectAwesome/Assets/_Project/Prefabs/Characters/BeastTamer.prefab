@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 54152342453577136}
   - component: {fileID: 114477275545345550}
   - component: {fileID: 114049158998077286}
+  - component: {fileID: 114730506421261006}
   m_Layer: 8
   m_Name: BeastTamer
   m_TagString: Untagged
@@ -393,9 +394,12 @@ MonoBehaviour:
   m_SwitchController: {fileID: 114471276766410914}
   m_PlayerStatus: {fileID: 114477275545345550}
   m_PlayerUI: {fileID: 114049158998077286}
-  m_MoveSpeed: 2.5
+  m_MoveSpeed: 5
   m_JumpForce: 15
-  m_DashForce: 0
+  m_DashForce: 15
+  isCoolingDown: 0
+  isJoystickRightCoolingDown: 0
+  isJoyStickRightActive: 0
 --- !u!114 &114471276766410914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -421,6 +425,17 @@ MonoBehaviour:
   mName: default name
   mHP: 10
   maxHP: 10
+--- !u!114 &114730506421261006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1856577589194810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b986448908cced34c9fbc7dc522962f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114924396830137072
 MonoBehaviour:
   m_ObjectHideFlags: 1

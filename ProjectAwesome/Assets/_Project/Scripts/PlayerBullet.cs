@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class PlayerBullet : MonoBehaviour
 {
     public Rigidbody m_RigidBody;
-    public Action<PlayerController> OnHit;
     public LayerMask hitMask;
+
     private float mSize = 0.5F;
 
     public void Fire(Vector3 dir, float force, float size)
@@ -19,21 +19,14 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-
         RaycastHit hit;
 
         if (Physics.SphereCast(transform.position, mSize, transform.forward, out hit, mSize, hitMask))
         {
-            var player = FindObjectOfType<PlayerController>();
-
-            if (OnHit != null)
-            {
-                OnHit.Invoke(player);
-            }
-
+            var enemy = FindObjectOfType<EnemyStatus>();
+            enemy.TakeDamage(1);
             Destroy(gameObject);
         }
-
     }
 
     IEnumerator DestroyOverTime(float duration)

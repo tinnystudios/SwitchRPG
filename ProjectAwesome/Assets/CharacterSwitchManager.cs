@@ -36,6 +36,7 @@ public class CharacterSwitchManager : MonoBehaviour
 
             element.SetActive(true);
         }
+
     }
 
     public GameObject GetNewCharacter(GameObject currentCharacter)

@@ -16,7 +16,8 @@ public class Turnet : MonoBehaviour
     public float max = 1.5F;
     public float force = 5;
     public float rotationSpeed = 10;
-
+    public float size = 0.5F;
+    public float shootRange = 15;
     public Material m_EnergyMaterial;
     public ParticleSystem m_EnergyPS;
     public Color m_ReadyColor;
@@ -47,6 +48,19 @@ public class Turnet : MonoBehaviour
 
         while (true)
         {
+            while (true)
+            {
+                var nearestPlayer = TargettingUtils.GetNearestTarget<PlayerController>(transform);
+                var distance = Vector3.Distance(transform.position, nearestPlayer.transform.position);
+
+                if (distance <= shootRange)
+                {
+                    break;
+                }
+
+                yield return null;
+            }
+
             yield return new WaitForSeconds(Random.Range(0.2F,1.0F));
 
             //canRotate = true;
@@ -81,7 +95,7 @@ public class Turnet : MonoBehaviour
                 var bullet = Instantiate(m_BulletPrefab, m_Pivot.position, m_Pivot.rotation, null);
                 var dir = cannon.forward;
                 dir += new Vector3(Random.Range(-0.2F, 0.2F), Random.Range(-0.05F, 0.05F), Random.Range(-0.2F, 0.2F));
-                bullet.Fire(dir, force * Random.Range(0.8F, 1.5F));
+                bullet.Fire(dir, force * Random.Range(0.8F, 1.5F), size * (Random.Range(1.0F,2.0F)));
                 bullet.OnHit += OnHitPlayer;
 
                 yield return new WaitForSeconds(0.1F);
@@ -100,6 +114,11 @@ public class Turnet : MonoBehaviour
     private void OnHitPlayer(PlayerController player)
     {
         player.TakeDamage();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position, transform.forward * shootRange);
     }
 
 }

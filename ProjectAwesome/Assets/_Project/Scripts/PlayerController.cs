@@ -18,6 +18,10 @@ public class PlayerController : MonoBehaviour {
     public float m_JumpForce = 5;
     public float m_DashForce = 10;
 
+    public bool isCoolingDown = false;
+    public bool isJoystickRightCoolingDown = false;
+    public bool isJoyStickRightActive = false;
+
     public bool HasAction
     {
         get
@@ -39,9 +43,13 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+
     // Update is called once per frame
     void Update ()
     {
+        if (isCoolingDown)
+            return;
+
         ProcessMovement();
         ProcessInput();
         ProcessPassive();
@@ -79,8 +87,19 @@ public class PlayerController : MonoBehaviour {
 
         transform.position += delta * m_MoveSpeed * Time.deltaTime;
 
-        if(delta.sqrMagnitude > 0.2F)
+        if(delta.sqrMagnitude > 0.2F && CanLookAtMoveDirection)
             transform.forward = delta;
+    }
+
+    public bool CanLookAtMoveDirection
+    {
+        get
+        {
+            if (isJoystickRightCoolingDown || isJoyStickRightActive)
+                return false;
+            else
+                return true;
+        }
     }
 
     public Vector3 Movement
@@ -94,13 +113,28 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public Vector2 RInput
+    {
+        get
+        {
+            return new Vector2(Input.GetAxisRaw("HorizontalR"), Input.GetAxisRaw("VerticalR"));
+        }
+    }
+
     public void ProcessInput()
     {
+
         if (Input.GetButtonDown("Fire1"))
         {
             if (mIAbility != null)
             {
                 mIAbility.Do();
+
+                if (mIAbility is ICoolDownable)
+                {
+                    var coolDownable = (ICoolDownable)mIAbility;
+                    CoolDown(coolDownable.CoolDownTime);
+                }
             }
         }
 
@@ -111,7 +145,9 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire2"))
         {
-            mRigidBody.velocity = Movement * m_DashForce;
+            var force = Movement * m_DashForce;
+            force.y = mRigidBody.velocity.y;
+            mRigidBody.velocity = force;
         }
 
         if (Input.GetButtonDown("Fire3"))
@@ -120,6 +156,38 @@ public class PlayerController : MonoBehaviour {
             m_SwitchController.Switch();
         }
 
+        //show ray
+        var rangeAttack = GetComponent<IRangeAttack>();
+
+        if (rangeAttack != null)
+        {
+
+            if (RInput.sqrMagnitude > 0.1F)
+            {
+                //Joystick down
+                rangeAttack.Show(RInput);
+                isJoyStickRightActive = true;
+            }
+            else
+            {
+                //Joystick down
+                rangeAttack.Hide();
+
+                if (isJoyStickRightActive)
+                {
+                    OnJoyStickRightUp();
+                }
+                isJoyStickRightActive = false;
+            }
+
+        }
+
+    }
+
+    public void OnJoyStickRightUp()
+    {
+        if(!isJoystickRightCoolingDown)
+            StartCoroutine(JoystickRightCoolDown(1.0F));
     }
 
     public void TakeDamage()
@@ -128,5 +196,36 @@ public class PlayerController : MonoBehaviour {
 
         if (GameManager.OnTakeDamage != null)
             GameManager.OnTakeDamage.Invoke(m_PlayerStatus);
+
+        //Stop your movement and cool down
+        mRigidBody.velocity = Vector3.zero;
+
+        CoolDown(0.2F);
     }
+
+    public void CoolDown(float coolDownDuration)
+    {
+        if(!isCoolingDown)
+            StartCoroutine(CoolDownProcess(coolDownDuration));
+    }
+
+    IEnumerator CoolDownProcess(float coolDOwnDuration)
+    {
+        isCoolingDown = true;
+        yield return new WaitForSeconds(coolDOwnDuration);
+        isCoolingDown = false;
+    }
+
+    IEnumerator JoystickRightCoolDown(float coolDOwnDuration)
+    {
+        isJoystickRightCoolingDown = true;
+        yield return new WaitForSeconds(coolDOwnDuration);
+        isJoystickRightCoolingDown = false;
+    }
+}
+
+
+public interface ICoolDownable
+{
+    float CoolDownTime { get; }
 }

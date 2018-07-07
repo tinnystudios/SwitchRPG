@@ -11,6 +11,11 @@ public class TimeController : MonoBehaviour, IPassive
         CancelPassiveEffect();
     }
 
+    private void OnDisable()
+    {
+        CancelPassiveEffect();
+    }
+
     public void CancelPassiveEffect()
     {
         Time.timeScale = 1.0F;
