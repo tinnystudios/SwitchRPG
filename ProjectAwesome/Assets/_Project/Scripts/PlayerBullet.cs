@@ -36,7 +36,6 @@ public class PlayerBullet : MonoBehaviour
 
             if (activatable != null)
             {
-                Debug.Log(hit.transform.name);
                 activatable.Activate();
             }
 
@@ -44,7 +43,15 @@ public class PlayerBullet : MonoBehaviour
 
             if (enemy != null)
             {
-                enemy.TakeDamage(1);
+                var damage = 1.0F;
+                var weakPoint = hit.collider.GetComponent<IWeakPoint>();
+
+                if (weakPoint != null)
+                {
+                    damage = damage * weakPoint.Percentage;
+                }
+
+                enemy.TakeDamage((int)damage);
                 Destroy(gameObject);
             }
         }

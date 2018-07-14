@@ -315,7 +315,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1089329846590246}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.8, y: 4.4, z: 0.6145191}
+  m_LocalPosition: {x: -0.45552826, y: 0.13537478, z: 0.6145191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4090564520347836}
@@ -766,7 +766,7 @@ MonoBehaviour:
   m_Bullet: {fileID: 114598235417045468, guid: d479e2cfc2adf1c4d8107ce28348b54e, type: 2}
   shootForce: 50
   coolDownTime: 0.15
-  shootTime: 0.35
+  shootTime: 0.1
   mLineCurve:
     serializedVersion: 2
     m_Curve:
