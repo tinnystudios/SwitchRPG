@@ -2,7 +2,8 @@
 
 public class RangeAttack : MonoBehaviour, IRangeAttack, ICoolDownable
 {
-    public PlayerController m_PlayerController;
+    private PlayerController mPlayerController;
+
     public Transform m_ShootingLine;
     public PlayerBullet m_Bullet;
     private bool isActive = false;
@@ -26,6 +27,8 @@ public class RangeAttack : MonoBehaviour, IRangeAttack, ICoolDownable
 
     public void Show(Vector2 joystickInput)
     {
+        mPlayerController = GetComponentInParent<PlayerController>();
+
         if (!isActive)
         {
             mStartTime = Time.time;
@@ -42,13 +45,13 @@ public class RangeAttack : MonoBehaviour, IRangeAttack, ICoolDownable
         isActive = true;
         m_ShootingLine.gameObject.SetActive(true);
 
-        var lookDirection = -transform.forward;
+        var lookDirection = -mPlayerController.transform.forward;
 
         lookDirection.x = joystickInput.x;
         lookDirection.z = -joystickInput.y;
 
-        transform.forward = new Vector3(-lookDirection.x, transform.forward.y, -lookDirection.z);
-        m_ShootingLine.forward = transform.forward;
+        mPlayerController.transform.forward = new Vector3(-lookDirection.x, mPlayerController.transform.forward.y, -lookDirection.z);
+        m_ShootingLine.forward = mPlayerController.transform.forward;
 
 
     }
@@ -60,11 +63,11 @@ public class RangeAttack : MonoBehaviour, IRangeAttack, ICoolDownable
     {
         if (isActive)
         {
-            var bullet = Instantiate(m_Bullet, transform.position, transform.rotation);
+            var bullet = Instantiate(m_Bullet, mPlayerController.transform.position, mPlayerController.transform.rotation);
 
             var range = Mathf.Lerp(minShootingRange,shootingRange,mProgress);
 
-            bullet.Fire(transform.forward, shootForce, 1.0F, range);
+            bullet.Fire(mPlayerController.transform.forward, shootForce, 1.0F, range);
         }
 
         m_ShootingLine.gameObject.SetActive(false);

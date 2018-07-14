@@ -6,9 +6,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     [Header("Components")]
+    public Transform weaponPivot; 
+
     public Rigidbody mRigidBody;
     public SwitchController m_SwitchController;
     private IAbility mIAbility;
+    private IAbility[] mIAbilities;
 
     public PlayerStatus m_PlayerStatus;
     public PlayerUI m_PlayerUI;
@@ -33,6 +36,7 @@ public class PlayerController : MonoBehaviour {
     private void Awake()
     {
         mIAbility = GetComponentInChildren<IAbility>(includeInactive:true);
+        mIAbilities = GetComponentsInChildren<IAbility>(includeInactive: true);
     }
 
     private void OnEnable()
@@ -40,6 +44,10 @@ public class PlayerController : MonoBehaviour {
         if (GameManager.OnNewPlayer != null)
         {
             GameManager.OnNewPlayer.Invoke(this);
+
+            isCoolingDown = false;
+            isJoystickRightCoolingDown = false;
+            isJoyStickRightActive = false;
         }
     }
 
@@ -126,16 +134,19 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire1"))
         {
-            if (mIAbility != null)
-            {
-                mIAbility.Do();
+            mIAbilities = GetComponentsInChildren<IAbility>(includeInactive: true);
 
-                if (mIAbility is ICoolDownable)
+
+            foreach (var ability in mIAbilities)
+            {
+                ability.Do();
+                if (ability is ICoolDownable)
                 {
-                    var coolDownable = (ICoolDownable)mIAbility;
+                    var coolDownable = (ICoolDownable)ability;
                     CoolDown(coolDownable.CoolDownTime);
                 }
             }
+
         }
 
         if (Input.GetButtonDown("Jump"))
@@ -157,7 +168,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         //show ray
-        var rangeAttack = GetComponent<IRangeAttack>();
+        var rangeAttack = GetComponentInChildren<IRangeAttack>();
 
         if (rangeAttack != null)
         {
