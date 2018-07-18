@@ -10,5 +10,9 @@ public class EnemyStatus : Status
         {
             GameManager.OnEnemyTakeDamage.Invoke(this);
         }
+
+        var flicker = GetComponentInChildren<IFlicker>();
+        if (flicker != null)
+            flicker.FlickerColor(Color.red);
     }
 }

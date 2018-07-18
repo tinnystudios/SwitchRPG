@@ -25,6 +25,8 @@ public class AttackController : MonoBehaviour, IAbility, ICoolDownable
 
     public void Check()
     {
+        var player = FindObjectOfType<PlayerController>();
+
         RaycastHit hit;
 
         var nClosest = TargettingUtils.GetNearestTarget<EnemyStatus>(transform);
@@ -33,9 +35,11 @@ public class AttackController : MonoBehaviour, IAbility, ICoolDownable
         {
             var dist = Vector3.Distance(transform.position, nClosest.transform.position);
             if (dist <= range)
+            {
+                nClosest.transform.position += player.transform.forward * 2;
                 nClosest.TakeDamage(1);
+            }
         }
-        var player = FindObjectOfType<PlayerController>();
         var sword = GetComponentInChildren<Sword>();
         if (sword != null)
         {

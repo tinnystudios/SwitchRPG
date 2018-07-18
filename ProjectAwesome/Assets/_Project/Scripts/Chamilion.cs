@@ -32,6 +32,8 @@ public class Chamilion : MonoBehaviour
 
     public Collider m_Collider;
 
+    public Animator m_Animator;
+
     private void Awake()
     {
         SetDamageSphere(3);
@@ -52,14 +54,21 @@ public class Chamilion : MonoBehaviour
         {
             if (canAttack)
                 StartCoroutine(AttackPlayer(player.transform));
+
+            if (m_Animator != null)
+                m_Animator.speed = 1;
+
         }
         else if (dist <= m_FollowRange && canAttack)
         {
             var dir = player.transform.position - transform.position;
             dir.Normalize();
 
-            var t = dist/m_FollowRange;
+            var t = dist / m_FollowRange;
             var outT = Mathf.Lerp(1, 0, t);
+
+            if (m_Animator != null)
+                m_Animator.speed = 1 + (m_MoveCurve.Evaluate(outT) * m_MaxMoveSpeed * 0.25F);
 
             var outMoveSpeed = Mathf.Lerp(m_MoveSpeed, m_MaxMoveSpeed, m_MoveCurve.Evaluate(outT));
 
@@ -68,6 +77,10 @@ public class Chamilion : MonoBehaviour
             var lookAtPosition = player.transform.position;
             lookAtPosition.y = transform.position.y;
             transform.LookAt(lookAtPosition);
+        }
+        else
+        {
+
         }
 
     }
@@ -80,8 +93,8 @@ public class Chamilion : MonoBehaviour
         m_Rigidbody.useGravity = false;
 
         //Change color
-        var colorModifier = GetComponent<ColorModifier>();
-        colorModifier.SetAttackColor();
+        //var colorModifier = GetComponent<ColorModifier>();
+        //colorModifier.SetAttackColor();
 
         var dir = player.position - transform.position;
         dir.Normalize();
@@ -97,7 +110,7 @@ public class Chamilion : MonoBehaviour
 
         yield return new WaitForSeconds(Random.Range(coolDownMin, coolDownMax));
 
-        colorModifier.SetCopyColor();
+        //colorModifier.SetCopyColor();
 
 
         canAttack = true;
