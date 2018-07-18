@@ -14,5 +14,16 @@ public class EnemyStatus : Status
         var flicker = GetComponentInChildren<IFlicker>();
         if (flicker != null)
             flicker.FlickerColor(Color.red);
+
+        var stunable = GetComponentInChildren<IStunable>();
+        if (stunable != null)
+        {
+            stunable.Stun();
+        }
     }
+}
+
+public interface IStunable
+{
+    void Stun();
 }

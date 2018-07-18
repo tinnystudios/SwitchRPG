@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chamilion : MonoBehaviour
+public class Chamilion : MonoBehaviour, IStunable
 {
     public LayerMask hitMask;
 
@@ -33,7 +33,8 @@ public class Chamilion : MonoBehaviour
     public Collider m_Collider;
 
     public Animator m_Animator;
-
+    private bool mStunned = false;
+    public float stunnedDuration = 0.7F;
     private void Awake()
     {
         SetDamageSphere(3);
@@ -46,6 +47,9 @@ public class Chamilion : MonoBehaviour
 
     private void Update()
     {
+        if (mStunned)
+            return;
+
         var player = FindObjectOfType<PlayerController>();
 
         var dist = Vector3.Distance(transform.position, player.transform.position);
@@ -165,6 +169,26 @@ public class Chamilion : MonoBehaviour
 
         CheckAttack();
         SetDamageSphere(3);
+    }
+
+    public void Stun()
+    {
+        if(!mStunned)
+        StartCoroutine(DoStun());
+    }
+
+    IEnumerator DoStun()
+    {
+        mStunned = true;
+        if (m_Animator != null) m_Animator.speed = 0;
+        yield return new WaitForSeconds(stunnedDuration);
+        if (m_Animator != null) m_Animator.speed = 1;
+        mStunned = false;
+    }
+
+    void OnDisable()
+    {
+        mStunned = false;
     }
 }
 
