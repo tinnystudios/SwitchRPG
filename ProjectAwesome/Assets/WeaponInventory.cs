@@ -34,6 +34,9 @@ public class WeaponInventory : Inventory<Weapon>
 
     public void SelectWeapon(Weapon weapon, bool ignoreDuplicates = true)
     {
+        if (weapon == null)
+            return;
+
         if (mActiveWeapon == weapon && ignoreDuplicates)
             return;
 

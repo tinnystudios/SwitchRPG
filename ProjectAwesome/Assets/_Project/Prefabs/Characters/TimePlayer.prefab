@@ -523,8 +523,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mName: default name
-  mHP: 10
-  maxHP: 10
+  mHP: 5
+  maxHP: 5
 --- !u!114 &114748165956895618
 MonoBehaviour:
   m_ObjectHideFlags: 1

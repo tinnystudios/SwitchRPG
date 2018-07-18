@@ -12,6 +12,9 @@ public class Chamilion : MonoBehaviour
     private bool isAttacking;
 
     public float m_MoveSpeed = 5;
+    public float m_MaxMoveSpeed = 15;
+
+
     public float m_AttackDuration = 3.0F;
     public float jumpHeight = 10;
 
@@ -20,6 +23,7 @@ public class Chamilion : MonoBehaviour
 
     private bool canAttack = true;
 
+    public AnimationCurve m_MoveCurve;
     public AnimationCurve m_YCurve;
     public AnimationCurve m_XZCurve;
 
@@ -53,7 +57,13 @@ public class Chamilion : MonoBehaviour
         {
             var dir = player.transform.position - transform.position;
             dir.Normalize();
-            transform.position += Time.deltaTime * m_MoveSpeed * dir;
+
+            var t = dist/m_FollowRange;
+            var outT = Mathf.Lerp(1, 0, t);
+
+            var outMoveSpeed = Mathf.Lerp(m_MoveSpeed, m_MaxMoveSpeed, m_MoveCurve.Evaluate(outT));
+
+            transform.position += Time.deltaTime * outMoveSpeed * dir;
 
             var lookAtPosition = player.transform.position;
             lookAtPosition.y = transform.position.y;

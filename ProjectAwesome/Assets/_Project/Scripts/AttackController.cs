@@ -21,6 +21,10 @@ public class AttackController : MonoBehaviour, IAbility, ICoolDownable
     public void Do()
     {
         mAnimator.SetTrigger("Attack");
+    }
+
+    public void Check()
+    {
         RaycastHit hit;
 
         var nClosest = TargettingUtils.GetNearestTarget<EnemyStatus>(transform);
@@ -28,10 +32,25 @@ public class AttackController : MonoBehaviour, IAbility, ICoolDownable
         if (nClosest != null)
         {
             var dist = Vector3.Distance(transform.position, nClosest.transform.position);
-            if(dist <= range)
-            nClosest.TakeDamage(1);
+            if (dist <= range)
+                nClosest.TakeDamage(1);
         }
+        var player = FindObjectOfType<PlayerController>();
+        var sword = GetComponentInChildren<Sword>();
+        if (sword != null)
+        {
+            var closestBullets = TargettingUtils.GetNearestTarget<Bullet>(transform, 3);
 
+            foreach (var bullet in closestBullets)
+            {
+                var dist = Vector3.Distance(transform.position, bullet.transform.position);
+
+                if (dist <= 5)
+                {
+                    bullet.Fire(player.transform.forward,50, 0.5F, 20);
+                }
+            }
+        }
     }
 
 }
@@ -52,10 +71,23 @@ public static class TargettingUtils
 
     public static T GetNearestTarget<T>(Transform rootTransform,List<T> list) where T : MonoBehaviour
     {
-        //get 3 closest characters (to referencePos)
         var nClosest = list.OrderBy(t => (t.transform.position - rootTransform.position).sqrMagnitude)
-                                   //.Take(3)   //or use .FirstOrDefault();  if you need just one
                                    .ToArray().FirstOrDefault();
+
+        return nClosest;
+    }
+
+    public static T[] GetNearestTarget<T>(Transform rootTransform, int amount) where T : MonoBehaviour
+    {
+        var list = GameObject.FindObjectsOfType<T>().ToList();
+        return GetNearestTarget(rootTransform, list, amount);
+    }
+
+    public static T[] GetNearestTarget<T>(Transform rootTransform, List<T> list, int amount) where T : MonoBehaviour
+    {
+        var nClosest = list.OrderBy(t => (t.transform.position - rootTransform.position).sqrMagnitude)
+                                   .Take(amount)
+                                   .ToArray();
 
         return nClosest;
     }

@@ -29,7 +29,7 @@ public class Bomb : MonoBehaviour
         yield return new WaitForSeconds(0.5F);
 
         //Check attack
-        var hits = Physics.SphereCastAll(transform.position, size, transform.right, size,hitMask);
+        var hits = Physics.SphereCastAll(transform.position, size * 0.5F, transform.right, size * 0.5F,hitMask);
         
         foreach (var hit in hits)
         {

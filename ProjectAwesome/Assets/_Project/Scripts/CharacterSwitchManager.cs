@@ -25,17 +25,24 @@ public class CharacterSwitchManager : MonoBehaviour
 
     private void Awake()
     {
+        var character = FindObjectOfType<PlayerController>();
+        Destroy(character.gameObject);
+
         for (int i = 0; i < mSwitchSettings.mCharacters.Length; i++)
         {
             var element = mSwitchSettings.mCharacters[i];
-
             element.SetActive(false);
 
-            var instance = Instantiate(element, transform.position, transform.rotation, transform.parent);
+            var instance = Instantiate(element, character.transform.position, character.transform.rotation, character.transform.parent);
             mLookUp.Add(element, instance);
 
             element.SetActive(true);
+
+            if (i == 0)
+                instance.SetActive(true);
         }
+
+        
 
     }
 
