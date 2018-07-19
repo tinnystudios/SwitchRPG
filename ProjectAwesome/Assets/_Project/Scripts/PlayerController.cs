@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : SingletonMonoBehaviour<PlayerController> {
+
+    public static Action OnPlayerAttack;
 
     [Header("Components")]
     public Transform weaponPivot; 
@@ -24,6 +26,23 @@ public class PlayerController : MonoBehaviour {
     public bool isCoolingDown = false;
     public bool isJoystickRightCoolingDown = false;
     public bool isJoyStickRightActive = false;
+
+    private States mStates = States.Idle;
+    public Action<States> OnStateChanged;
+    public TrailRenderer trail;
+    public States State
+    {
+        get { return mStates; }
+        set
+        {
+            if (mStates != value)
+            {
+                if(OnStateChanged != null)
+                OnStateChanged(value);
+            }
+            mStates = value;
+        }
+    }
 
     public bool HasAction
     {
@@ -95,7 +114,20 @@ public class PlayerController : MonoBehaviour {
 
         transform.position += delta * m_MoveSpeed * Time.deltaTime;
 
-        if(delta.sqrMagnitude > 0.2F && CanLookAtMoveDirection)
+        if (delta.sqrMagnitude > 0.2F)
+        {
+            State = States.Move;
+
+            if (trail != null)
+                trail.enabled = false;
+        }
+        else
+        {
+            if(CanLookAtMoveDirection)
+                State = States.Idle;
+        }
+
+        if (delta.sqrMagnitude > 0.2F && CanLookAtMoveDirection)
             transform.forward = delta;
     }
 
@@ -136,10 +168,14 @@ public class PlayerController : MonoBehaviour {
         {
             mIAbilities = GetComponentsInChildren<IAbility>(includeInactive: true);
 
-
             foreach (var ability in mIAbilities)
             {
+
+                if (OnPlayerAttack != null)
+                    OnPlayerAttack.Invoke();
+
                 ability.Do();
+
                 if (ability is ICoolDownable)
                 {
                     var coolDownable = (ICoolDownable)ability;
@@ -156,15 +192,24 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire2"))
         {
+            CoolDown(0.5F);
+
             var force = Movement * m_DashForce;
             force.y = mRigidBody.velocity.y;
             mRigidBody.velocity = force;
+
+            if(trail != null)
+            trail.enabled = true;
+
+            State = States.Dash;
+
         }
 
         if (Input.GetButtonDown("Fire3"))
         {
             CancelPassive();
             m_SwitchController.Switch();
+
         }
 
         //show ray
@@ -246,4 +291,13 @@ public class PlayerController : MonoBehaviour {
 public interface ICoolDownable
 {
     float CoolDownTime { get; }
+}
+
+public enum States
+{
+    Idle,
+    Move,
+    Attack,
+    CoolDown,
+    Dash
 }

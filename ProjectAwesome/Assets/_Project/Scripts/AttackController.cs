@@ -17,10 +17,21 @@ public class AttackController : MonoBehaviour, IAbility, ICoolDownable
             return coolDownAmount;
         }
     }
+    private int cachedCombo = 0;
 
     public void Do()
     {
-        mAnimator.SetTrigger("Attack");
+        cachedCombo = ComboBar.Instance.ComboCount;
+
+        if (ComboBar.Instance.ComboCount == 0)
+        {
+            mAnimator.SetTrigger("Attack1");
+        }
+        else
+        {
+            mAnimator.SetTrigger("Attack2");
+        }
+
     }
 
     public void Check()
@@ -37,7 +48,7 @@ public class AttackController : MonoBehaviour, IAbility, ICoolDownable
             if (dist <= range)
             {
                 nClosest.transform.position += player.transform.forward * 2;
-                nClosest.TakeDamage(1);
+                nClosest.TakeDamage(1,cachedCombo);
             }
         }
         var sword = GetComponentInChildren<Sword>();

@@ -601,6 +601,7 @@ MonoBehaviour:
   isCoolingDown: 0
   isJoystickRightCoolingDown: 0
   isJoyStickRightActive: 0
+  trail: {fileID: 0}
 --- !u!114 &114471276766410914
 MonoBehaviour:
   m_ObjectHideFlags: 1

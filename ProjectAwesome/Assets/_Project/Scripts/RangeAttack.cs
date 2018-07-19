@@ -67,7 +67,7 @@ public class RangeAttack : MonoBehaviour, IRangeAttack, ICoolDownable
 
             var range = Mathf.Lerp(minShootingRange,shootingRange,mProgress);
 
-            bullet.Fire(mPlayerController.transform.forward, shootForce, 1.0F, range);
+            bullet.Fire(mPlayerController.transform.forward, shootForce, 1.5F, range);
         }
 
         m_ShootingLine.gameObject.SetActive(false);

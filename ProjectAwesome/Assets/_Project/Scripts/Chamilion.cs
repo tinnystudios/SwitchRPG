@@ -163,6 +163,9 @@ public class Chamilion : MonoBehaviour, IStunable
     {
         for (float i = 0; i < 1.0F; i += Time.deltaTime / 0.15F)
         {
+            if (mStunned)
+                yield break;
+
             SetDamageSphere(Mathf.Lerp(3, damageRange, i));
             yield return null;
         }
@@ -173,8 +176,12 @@ public class Chamilion : MonoBehaviour, IStunable
 
     public void Stun()
     {
+        StopAllCoroutines();
+        canAttack = true;
+        m_Rigidbody.useGravity = true;
+
         if(!mStunned)
-        StartCoroutine(DoStun());
+            StartCoroutine(DoStun());
     }
 
     IEnumerator DoStun()

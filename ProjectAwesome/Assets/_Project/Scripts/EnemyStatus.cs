@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class EnemyStatus : Status
 {
-    public override void TakeDamage(int amount)
+    public override void TakeDamage(int amount, int currentCombo = 0)
     {
         base.TakeDamage(amount);
 
@@ -15,10 +16,16 @@ public class EnemyStatus : Status
         if (flicker != null)
             flicker.FlickerColor(Color.red);
 
-        var stunable = GetComponentInChildren<IStunable>();
-        if (stunable != null)
+        if (currentCombo >= 1)
         {
-            stunable.Stun();
+            
+            var stunable = GetComponentInChildren<IStunable>();
+
+            if (stunable != null)
+            {
+                stunable.Stun();
+            }
+
         }
     }
 }

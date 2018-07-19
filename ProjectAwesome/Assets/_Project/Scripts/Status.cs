@@ -16,7 +16,7 @@ public class Status : MonoBehaviour
         mHP = maxHP;
     }
 
-    public virtual void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount, int currentCombo = 0)
     {
         mHP -= amount;
 
