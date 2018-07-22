@@ -1,16 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
-{
-
-
-
-}
-
 public static class GameInput
 {
+
     public static Vector2 WeaponAxis
     {
         get
@@ -22,4 +17,14 @@ public static class GameInput
             return xy;
         }
     }
+}
+
+/// <summary>
+/// Static events for AIs to listen to
+/// </summary>
+public static class PlayerInputEvents
+{
+    public static Action OnDash;
+    public static Action OnBeginCloseRangeAttack;
+    public static Action OnBeginRangeAttack;
 }
