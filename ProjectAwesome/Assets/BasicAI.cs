@@ -1,53 +1,44 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// All BasicAI can move and perform
 /// </summary>
 public class BasicAI : MonoBehaviour {
 
-    public AIAction m_MoveAction;
-    public AIAction m_AttackAction;
+    private Planner m_Planner;
+    private List<AIAction> m_CurrentPlan;
 
-    private void Update()
+    public GoalState m_GoalState;
+    public MoveTowardAction m_MoveTowardAction;
+
+    private void Awake()
     {
-        if (m_AttackAction.InRange)
+        m_Planner = new Planner();
+        StartCoroutine(ProcessUpdate());
+    }
+
+    IEnumerator ProcessUpdate()
+    {
+        while (true)
         {
-            m_AttackAction.Perform();
-        }
-        else
-        {
-            if (m_MoveAction.InRange)
+            var actions = m_Planner.Plan(m_GoalState, this);
+            m_CurrentPlan = actions;
+
+            if (actions.Count > 0)
             {
-                m_MoveAction.Perform();
+                actions[0].Perform();
+                yield return new WaitForSeconds(actions[0].timeCost);
             }
+            else
+            {
+                //Roam
+            }
+
+            yield return null;
         }
     }
 
 }
 
-public class RangeAction : AIAction
-{
-    public float m_EnterRange, m_PerformRange, m_ExitRange;
-
-    public override bool CoolingDown { get { return false; } }
-
-    public override bool InRange
-    {
-        get
-        {
-            return true;
-        }
-    }
-
-    public override void Perform()
-    {
-        
-    }
-}
-
-public abstract class AIAction : MonoBehaviour
-{
-    public abstract void Perform();
-    public abstract bool CoolingDown { get; }
-    public abstract bool InRange { get; }
-}
