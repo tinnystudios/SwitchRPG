@@ -1,36 +1,29 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class MeleeAction : AIAction
 {
-    public float m_AttackRange = 3;
+    public GameObject m_AttackObject;
 
-    public override bool CoolingDown
+    public override bool CanPerform
     {
         get
         {
-            return false;
-        }
-    }
-
-    public override bool InRange
-    {
-        get
-        {
-            var player = PlayerController.Instance;
-
-            if (player == null)
-            {
-                return false;
-            }
-
-            var dist = Vector3.Distance(transform.position, player.transform.position);
-
-            return dist <= m_AttackRange;
+            return true; //Requires some kind of cost
         }
     }
 
     public override void Perform()
     {
-        Debug.Log("Attack");
+        StartCoroutine(AttackAnimation());
+        StartCoolDown();
+    }
+
+    IEnumerator AttackAnimation()
+    {
+        m_AttackObject.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.2F);
+        m_AttackObject.gameObject.SetActive(false);
     }
 }

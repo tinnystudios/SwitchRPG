@@ -2,35 +2,42 @@
 
 public class MoveTowardAction : AIAction
 {
-    public float m_Range = 10;
     public float m_MoveSpeed = 3;
+    public float m_StopRange = 2;
+    private float startTime = 0;
 
-    public override bool CoolingDown
-    {
-        get { return false; }
-    }
-
-    public override bool InRange
+    public override bool CanPerform
     {
         get
         {
-            var player = PlayerController.Instance;
-
-            if (player == null)
-            {
-                return false;
-            }
-
-            var dist = Vector3.Distance(transform.position, player.transform.position);
-
-            return dist <= m_Range;
+            return true; //If already in attack ranges
         }
     }
 
     public override void Perform()
     {
-        var player = PlayerController.Instance;
-        var dir = player.transform.position - transform.position;
-        transform.position += dir * m_MoveSpeed * Time.deltaTime;
+        if (m_Target == null)
+            return;
+
+
+        if (startTime == 0)
+            startTime = Time.time;
+
+        var timeLapsed = Time.time - startTime;
+
+        if (timeLapsed >= 1.5F)
+        {
+            startTime = 0;
+            StartCoolDown();
+            //In fact it's more like, let's check if there are other actions available so this should be reset as soon as it's the only one
+        }
+
+        var dir = m_Target.transform.position - transform.position;
+        dir.Normalize();
+
+        var dist = Vector3.Distance(transform.position, m_Target.position);
+
+        if(dist >= m_StopRange)
+            transform.position += dir * m_MoveSpeed * Time.deltaTime;
     }
 }
