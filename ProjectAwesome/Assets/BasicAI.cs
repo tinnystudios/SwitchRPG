@@ -13,8 +13,13 @@ public class BasicAI : MonoBehaviour {
     public GoalState m_GoalState;
     public MoveTowardAction m_MoveTowardAction;
 
+    public Transform m_Target;
+
     private void Awake()
     {
+        var actions = GetComponentsInChildren<AIAction>();
+        foreach (var action in actions) { action.SetTarget(m_Target); }
+
         m_Planner = new Planner();
         StartCoroutine(ProcessUpdate());
     }
@@ -26,14 +31,22 @@ public class BasicAI : MonoBehaviour {
             var actions = m_Planner.Plan(m_GoalState, this);
             m_CurrentPlan = actions;
 
-            if (actions.Count > 0)
+            foreach (var action in actions)
             {
-                actions[0].Perform();
-                yield return new WaitForSeconds(actions[0].timeCost);
-            }
-            else
-            {
-                //Roam
+                while (!action.IsDone)
+                {
+                    action.Perform();
+                    yield return null;
+                }
+
+                if (action.IsFault)
+                {
+                    Debug.Log("An action has failed, let's replan");
+                    break;
+                }
+
+                //Delay until next action
+                yield return new WaitForSeconds(action.PerformCost);
             }
 
             yield return null;

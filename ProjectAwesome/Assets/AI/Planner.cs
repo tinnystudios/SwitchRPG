@@ -13,10 +13,11 @@ public class Planner
         //Add actions that are contributing to the goal
         foreach (var action in actions)
         {
-            if (action.m_LookUp.ContainsKey(goal))
+            action.Reset();
+
+            if (action.m_LookUp.ContainsKey(goal) && action.MeetConditions)
             {
-                if(!action.CoolingDown && action.CanPerform && action.InRange)
-                    result.Add(action);
+                result.Add(action);
             }
         }
 

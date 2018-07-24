@@ -2,15 +2,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class MeleeAction : AIAction
+public class MeleeAction : CoolDownAction
 {
     public GameObject m_AttackObject;
+    public bool mAttacked = false;
 
-    public override bool CanPerform
+    public override bool IsDone
     {
         get
         {
-            return true; //Requires some kind of cost
+            return mAttacked;
         }
     }
 
@@ -25,5 +26,12 @@ public class MeleeAction : AIAction
         m_AttackObject.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.2F);
         m_AttackObject.gameObject.SetActive(false);
+        mAttacked = true;
+    }
+
+    public override void Reset()
+    {
+        mAttacked = false;
+        base.Reset();
     }
 }
