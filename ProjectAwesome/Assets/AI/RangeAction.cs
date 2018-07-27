@@ -4,6 +4,8 @@ public class RangeAction : CoolDownAction
 {
     public Bullet m_Bullet;
     public float m_MinRange = 1;
+    public float force = 15;
+    public float size = 0.5F;
     private bool mAttacked = false;
 
     public override bool MeetConditions
@@ -28,7 +30,9 @@ public class RangeAction : CoolDownAction
         var bullet = Instantiate(m_Bullet,transform.position,transform.rotation);
         var dir = Target.position - transform.position;
         dir.Normalize();
-        bullet.Fire(dir, 25, 0.5F, 30.0F);
+        dir.y = Target.position.y;
+
+        bullet.Fire(dir, force, size, 30.0F);
         StartCoolDown();
         mAttacked = true;
     }

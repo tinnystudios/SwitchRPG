@@ -13,24 +13,14 @@ public class EnemyStatus : Status
         }
 
         var flicker = GetComponentInChildren<IFlicker>();
+
         if (flicker != null)
             flicker.FlickerColor(Color.red);
 
-        if (currentCombo >= 1)
-        {
-            
-            var stunable = GetComponentInChildren<IStunable>();
-
-            if (stunable != null)
-            {
-                stunable.Stun();
-            }
-
-        }
     }
 }
 
 public interface IStunable
 {
-    void Stun();
+    void Stun(Character character);
 }

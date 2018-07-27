@@ -45,6 +45,8 @@ public class WeaponInventory : Inventory<Weapon>
             Destroy(mActiveWeaponInstance);
         }
 
+        return;
+
         var player = FindObjectOfType<PlayerController>();
         var weaponInstance = Instantiate(weapon.m_Prefab);
 

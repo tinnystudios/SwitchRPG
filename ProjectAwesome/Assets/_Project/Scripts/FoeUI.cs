@@ -25,6 +25,7 @@ public class FoeUI : MonoBehaviour
         m_HP.text = obj.mHP.ToString();
         m_EnemyName.text = obj.mName;
         m_HPBar.fillAmount = obj.PercentageRemaining;
+
     }
 
     IEnumerator CoolDown()

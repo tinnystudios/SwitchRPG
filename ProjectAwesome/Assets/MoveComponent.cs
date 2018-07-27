@@ -8,6 +8,7 @@ public class MoveComponent : MonoBehaviour
 
     public void Move(Vector3 dir)
     {
+        dir.y = 0;
         transform.position += Time.deltaTime * dir * m_MoveSpeed;
     }
 }

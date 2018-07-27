@@ -10,8 +10,8 @@ public static class GameInput
     {
         get
         {
-            var x = Input.GetAxis("WeaponX");
-            var y = Input.GetAxis("WeaponY");
+            var x = Input.GetAxis("DpadX");
+            var y = Input.GetAxis("DpadY");
 
             var xy = new Vector2(x, y);
             return xy;

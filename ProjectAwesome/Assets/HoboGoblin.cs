@@ -88,7 +88,7 @@ public class HoboGoblin : MonoBehaviour, ICoolDownable, IStunable {
 
     }
 
-    public void Stun()
+    public void Stun(Character character)
     {
         Debug.Log("Stunned");
         StartCoroutine(DoStun());

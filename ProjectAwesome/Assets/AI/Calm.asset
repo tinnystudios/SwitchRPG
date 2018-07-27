@@ -9,7 +9,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff9ae2f2820a45c469850f60afcc428e, type: 3}
-  m_Name: Survive
+  m_Name: Calm
   m_EditorClassIdentifier: 
-  m_Goal: 0
   m_State: 1

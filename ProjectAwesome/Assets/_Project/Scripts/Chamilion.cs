@@ -50,7 +50,7 @@ public class Chamilion : MonoBehaviour, IStunable
         if (mStunned)
             return;
 
-        var player = FindObjectOfType<PlayerController>();
+        var player = FindObjectOfType<Character>();
 
         var dist = Vector3.Distance(transform.position, player.transform.position);
 
@@ -140,7 +140,7 @@ public class Chamilion : MonoBehaviour, IStunable
 
     private void OnDrawGizmos()
     {
-        var player = FindObjectOfType<PlayerController>();
+        var player = FindObjectOfType<Character>();
         Gizmos.DrawRay(transform.position, transform.forward * m_AttackRange);
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position + Vector3.up * 0.1F, transform.forward * m_FollowRange);
@@ -149,13 +149,13 @@ public class Chamilion : MonoBehaviour, IStunable
 
     public void CheckAttack()
     {
-        var player = FindObjectOfType<PlayerController>();
+        var player = FindObjectOfType<Character>();
 
         var dist = Vector3.Distance(transform.position, player.transform.position);
 
         if (dist <= damageRange/2)
         {
-            player.TakeDamage();
+            player.TakeDamage(1);
         }
     }
 
@@ -174,7 +174,7 @@ public class Chamilion : MonoBehaviour, IStunable
         SetDamageSphere(3);
     }
 
-    public void Stun()
+    public void Stun(Character character)
     {
         StopAllCoroutines();
         canAttack = true;

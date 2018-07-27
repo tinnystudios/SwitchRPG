@@ -15,7 +15,7 @@ public class Planner
         {
             action.Reset();
 
-            if (action.m_LookUp.ContainsKey(goal) && action.MeetConditions)
+            if (action.m_LookUp.ContainsKey(goal) && action.MeetConditions && !action.IsDone)
             {
                 result.Add(action);
             }

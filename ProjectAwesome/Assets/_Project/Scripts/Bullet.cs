@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     private float mSize = 0.5F;
     private float mRange = 5;
     private Vector3 mFiredPosition;
+
     public void Fire(Vector3 dir, float force, float size, float range)
     {
         m_RigidBody.velocity = dir * force;
@@ -31,13 +32,8 @@ public class Bullet : MonoBehaviour
 
         if (Physics.SphereCast(transform.position, mSize, transform.forward, out hit, mSize, hitMask))
         {
-            var player = FindObjectOfType<PlayerController>();
-
-            if (OnHit != null)
-            {
-                OnHit.Invoke(player);
-            }
-
+            var status = FindObjectOfType<Character>();
+            status.TakeDamage(1);
             Destroy(gameObject);
         }
 

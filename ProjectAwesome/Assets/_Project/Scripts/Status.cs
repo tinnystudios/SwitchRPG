@@ -45,3 +45,9 @@ public class Status : MonoBehaviour
     }
 
 }
+
+public interface ISender
+{
+
+}
+

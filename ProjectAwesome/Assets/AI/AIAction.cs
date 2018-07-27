@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public abstract class CoolDownAction : AIAction
 {
-    [SerializeField] private float m_CoolDownDuration = 1;
+    [SerializeField] protected float m_CoolDownDuration = 1;
     protected bool mCoolingDown = false;
 
     public override bool MeetConditions
@@ -18,6 +18,8 @@ public abstract class CoolDownAction : AIAction
             return !mCoolingDown && base.MeetConditions;
         }
     }
+
+    public bool IsCoolingDown { get { return mCoolingDown; } }
 
     public virtual void StartCoolDown()
     {
