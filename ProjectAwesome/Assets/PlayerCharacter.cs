@@ -2,30 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacter : Character
+public class PlayerCharacter : Character, ICombo
 {
+    public TargetSystem m_TargetSystem;
+    public float CurrentCombo { get { return 0; } }
 
-}
-
-public static class PlayerInput
-{
-    public static Vector3 Movement
+    void Update()
     {
-        get
+        if (PlayerInput.ChainAttack)
         {
-            var x = Input.GetAxis("Horizontal");
-            var y = Input.GetAxis("Vertical");
-            var delta = new Vector3(x, 0, y);
-
-            return delta;
-        }
-    }
-
-    public static Vector2 RInput
-    {
-        get
-        {
-            return new Vector2(Input.GetAxisRaw("HorizontalR"), Input.GetAxisRaw("VerticalR"));
+            m_TargetSystem.PlayEffect();
         }
     }
 }

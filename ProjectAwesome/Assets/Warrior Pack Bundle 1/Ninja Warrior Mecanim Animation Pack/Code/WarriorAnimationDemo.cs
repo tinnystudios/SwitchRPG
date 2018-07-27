@@ -21,7 +21,7 @@ public enum Warrior{
 	Crossbow
 }
 
-public class WarriorAnimationDemo : PlayerCharacter, ICombo {
+public class WarriorAnimationDemo : MonoBehaviour{
 	[HideInInspector]
 	public Animator animator;
 	public Warrior warrior;
@@ -227,7 +227,7 @@ public class WarriorAnimationDemo : PlayerCharacter, ICombo {
 				}
 				if(Input.GetAxis("DashVertical") > 0.5 || Input.GetAxis("DashVertical") < -0.5 || Input.GetAxis("DashHorizontal") > 0.5 || Input.GetAxis("DashHorizontal") < -0.5){
 					if(!isDashing && !isInAir){
-						StartCoroutine(_DirectionalDash());
+						//StartCoroutine(_DirectionalDash());
 					}
 				}
 			}
